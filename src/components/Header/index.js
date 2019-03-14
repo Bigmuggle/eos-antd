@@ -27,7 +27,7 @@ export default class Header extends React.Component{
    }
     render(){
         return (
-            <div>
+            <div className='color'>
                 <Row>
                     <Col span={24} className='header'>
                     <div className='name'>

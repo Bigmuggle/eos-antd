@@ -1,5 +1,6 @@
 import React from 'react'
-import { Menu, Switch  } from 'antd';
+import {NavLink} from 'react-router-dom'
+import { Menu, Switch, Icon  } from 'antd';
 import './index.css'
 import MenuList from '../../config/menuConfig'
 const SubMenu = Menu.SubMenu;
@@ -17,11 +18,14 @@ export default class NavLeft extends React.Component{
     renderList(data){
         return data.map((item)=>{
                if(item.Children){
-                   return <SubMenu title={item.title} key={item.key}>
-                       {this.renderList(item.Children)}
+                  
+                   return <SubMenu title={<span><Icon type={item.Icon}/><span></span>{item.title}</span>} key={item.key}>                
+                     {this.renderList(item.Children)}
                    </SubMenu>   
                }
-               return <Menu.Item title={item.title} key={item.key}>{item.title}</Menu.Item>
+               return   <Menu.Item title={item.title} key={item.key}> <NavLink to={item.key}> <Icon type={item.Icon}/>{item.title}</NavLink></Menu.Item>
+                  
+               
         })
     }
     changeTheme = (value) => {
