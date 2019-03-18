@@ -17,9 +17,8 @@ export default class NavLeft extends React.Component{
     }
     renderList(data){
         return data.map((item)=>{
-               if(item.Children){
-                  
-                   return <SubMenu title={<span><Icon type={item.Icon}/><span></span>{item.title}</span>} key={item.key}>                
+               if(item.Children){            
+                   return <SubMenu title={<span><Icon type={item.Icon}/>{item.title}</span>} key={item.key}>                
                      {this.renderList(item.Children)}
                    </SubMenu>   
                }
@@ -35,7 +34,6 @@ export default class NavLeft extends React.Component{
     }
 
     handleClick = (e) => {
-        console.log('click ', e);
         this.setState({
         current: e.key,
         });
