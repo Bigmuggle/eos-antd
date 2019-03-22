@@ -17,7 +17,7 @@ export default class Router extends React.Component{
                                 <Admin> 
                                     <Switch> 
                                         <Route  path="/home" component={Home} />                                                    
-                                        <Route path="/admin/UI/option1" component={Button}/>
+                                        <Route path="/admin/UI/Button" component={Button}/>
                                         <Redirect to='/home'/>
                                     </Switch>
                                 </Admin>

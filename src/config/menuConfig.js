@@ -10,8 +10,8 @@ const menuList = [
         key:'/admin/UI',
         Children:[
             {
-                title:'option1',
-                key:'/admin/UI/option1'
+                title:'Button',
+                key:'/admin/UI/Button'
             },
             {
                 title:'option2',
