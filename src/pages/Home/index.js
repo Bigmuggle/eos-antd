@@ -5,8 +5,8 @@ export default class Home extends React.Component{
     render(){
         return (
             <div>
-               <Row className="container">
-                   <Col span={24} className='box'>
+               <Row>
+                   <Col  className='box'>
                        Home页面
                    </Col>
                </Row>     

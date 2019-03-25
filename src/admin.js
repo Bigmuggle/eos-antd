@@ -1,12 +1,13 @@
 import React from "react"
 import {PropTypes} from 'prop-types'
 // import {Redirect} from 'react-router-dom'
-import { Row,Col } from "antd";
+import { Row,Layout } from "antd";
 import NavLeft from './components/NavLeft'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import './style/common.less'
+// import Header from './components/Header'
 
+import './style/common.less'
+const Content = Layout.Content
+const Footer = Layout.Footer
 export default class Admin extends React.Component{
     static contextTypes = {
         router: PropTypes.object.isRequired,
@@ -29,18 +30,23 @@ export default class Admin extends React.Component{
         }
         return (
             <div>
-                <Row className="container">
-                    <Col span={3}  className='left'>
-                        <NavLeft/>
-                    </Col>
-                    <Col span={21} className="main">
-                       <Header></Header>
+                <Row className="container">                  
+                        <NavLeft>
+                            <Content style={{"padding":"20px"}}>
+                                {this.props.children}
+                                
+                            </Content>
+                            <Footer style={{"textAlign":"center"}}> 版权所有 Copyright © 2016 Phoenix New Media Limited All Rights Reserved.
+                            </Footer>
+                        </NavLeft>
+                  
+                    {/* <Col span={21} className="main">
                        <Row className='content'>
                     
                            {this.props.children}
                        </Row>
                        <Footer></Footer>   
-                    </Col>
+                    </Col> */}
                 </Row>
             </div>
         )
