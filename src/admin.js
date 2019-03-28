@@ -3,11 +3,10 @@ import {PropTypes} from 'prop-types'
 // import {Redirect} from 'react-router-dom'
 import { Row,Layout } from "antd";
 import NavLeft from './components/NavLeft'
-// import Header from './components/Header'
+ import Footer from './components/Footer'
 
 import './style/common.less'
 const Content = Layout.Content
-const Footer = Layout.Footer
 export default class Admin extends React.Component{
     static contextTypes = {
         router: PropTypes.object.isRequired,
@@ -16,8 +15,8 @@ export default class Admin extends React.Component{
     constructor(props){
         super(props)
         this.state ={
-            isLogin : window.localStorage.getItem("userId")?true : false,
-        }
+            isLogin : window.sessionStorage.getItem("userId")?true : false,
+        }  
     }
     componentWillMount(){
        
@@ -34,10 +33,10 @@ export default class Admin extends React.Component{
                         <NavLeft>
                             <Content style={{"padding":"20px"}}>
                                 {this.props.children}
-                                
+                               <Footer/>
+                   
                             </Content>
-                            <Footer style={{"textAlign":"center"}}> 版权所有 Copyright © 2016 Phoenix New Media Limited All Rights Reserved.
-                            </Footer>
+                            
                         </NavLeft>
                   
                     {/* <Col span={21} className="main">

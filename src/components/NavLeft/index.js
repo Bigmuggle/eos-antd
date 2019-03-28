@@ -65,7 +65,7 @@ export default class NavLeft extends React.Component{
             okText: '确认',
             cancelText: '取消',
             onOk(){
-                window.localStorage.setItem('userId',"");
+                window.sessionStorage.setItem('userId',"");
                 routers.replace('/login')
             }
         });

@@ -17,7 +17,7 @@ class Login extends React.Component{
             if (!err) {
                 if(values.userName === "admin" && values.password ==="1" ){
                   
-                        window.localStorage.setItem(
+                      window.sessionStorage.setItem(
                             'userId',values.userName
                         )
                         this.context.router.history.push('/home')
