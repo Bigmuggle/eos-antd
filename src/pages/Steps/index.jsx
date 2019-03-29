@@ -9,9 +9,10 @@ import {
      Input,
      Icon,
      Tooltip,
-     Col
+     Col,
+     Cascader
      } from 'antd';
-
+import "./index.less"
 const Step = Steps.Step;
 
 const steps = [{
@@ -39,9 +40,16 @@ export default class App extends React.Component {
     
   }
   next() {
-    console.log(this.formRef.getItemsValue());  
-    const current = this.state.current + 1;
-    this.setState({ current });
+//    if( this.state.current === 0){
+//     if(this.formRef.getItemsValue() !== "undefined"){
+        console.log( this.formRef.getItemsValue())
+        // const current = this.state.current + 1;
+        // this.setState({ current });
+//     }
+    
+
+//    }
+    
   }
 
   prev() {
@@ -58,13 +66,13 @@ export default class App extends React.Component {
           {steps.map(item => <Step key={item.title} title={item.title} />)}
         </Steps>
       </Card>
-        <Card>
+        <Card className="stepscontext">
         {
             current === 0 ?
-           (<div className="steps-content"><WestStepsOne  wrappedComponentRef={(form) => this.formRef = form} /></div>) :null
+           (<div className="steps-content"><WestStepsOne value = "123"  wrappedComponentRef={(form) => this.formRef = form} /></div>) :null
         }
         {/* <div className="steps-content">{steps[current].content}</div> */}
-          <div className="steps-action">
+          <div className="nextButton">
           {
             current < steps.length - 1
             && <Button type="primary" onClick={() => this.next()}>下一步</Button>
@@ -90,33 +98,65 @@ export default class App extends React.Component {
 }
 class StepsOne extends React.Component{
     getItemsValue = ()=>{    //3、自定义方法，用来传递数据（需要在父组件中调用获取数据）
-        const valus= this.props.form.getFieldsValue();       //4、getFieldsValue：获取一组输入控件的值，如不传入参数，则获取全部组件的值
-        return valus;
+   
+     this.props.form.validateFields((values) => {
+           this.props.value(values)
+          });
+          console.log(this.props.value)
+        //    const valus= this.props.form.getFieldsValue();       //4、getFieldsValue：获取一组输入控件的值，如不传入参数，则获取全部组件的值
+        //    return valus;
     }
+    
 
+   
+    
     render(){
+        const cityoption = [{
+            value: '浙江',
+            label: '浙江',
+            children: [{
+              value: '杭州',
+              label: '杭州',
+              children: [{
+                value: '西湖',
+                label: '西湖',
+              }],
+            }],
+          }, {
+            value: '江苏',
+            label: '江苏',
+            children: [{
+              value: '南京',
+              label: '南京',
+              children: [{
+                value: '中华门',
+                label: '中华门',
+              }],
+            }],
+          }];
         const formItemLayout = {
             labelCol: {
-              xs: { span: 24 },
-              sm: { span: 8 },
+              xs: { span: 8},
+              sm: { span: 8},
             },
             wrapperCol: {
-              xs: { span: 24 },
-              sm: { span: 16 },
+              xs: { span: 12 },
+              sm: { span: 12 },
             },
           };
         const { getFieldDecorator } = this.props.form;
         return(
-            <Form {...formItemLayout}   layout="inline" >   
-            <Row gutter={24}>
+            <Form {...formItemLayout} onSubmit={this.getItemsValue}  layout="inline" >   
+            <Row className="rowcontainer">
                 <Col span={12} className="inputstyle">
                 <Form.Item
                     label={
                         <span>邮件地址</span>
                     }
+                    style={{"display":"block"}}
                 >
                 {getFieldDecorator('email', {
-                    rules: [{ required: true, message: 'Please input your username!' }],
+                    rules: [{ required: true, message: '请输入邮箱地址!' }],
                 })(
                     <Input  placeholder="email" />
                 )}
@@ -127,6 +167,7 @@ class StepsOne extends React.Component{
                     label={
                             <span>密码</span>
                         }
+                        style={{"display":"block"}}
                 >
                 {getFieldDecorator('password', {
                     rules: [{ required: true, message: 'Please input your Password!' }],
@@ -136,7 +177,7 @@ class StepsOne extends React.Component{
                 </Form.Item>
                 </Col>
             </Row>     
-            <Row gutter={24}>
+            <Row  className="rowcontainer">
             <Col span={12}>
             <Form.Item
                     label={(
@@ -147,11 +188,12 @@ class StepsOne extends React.Component{
                         </Tooltip>
                         </span>
                     )}
+                    style={{"display":"block"}}
                     >
                     {getFieldDecorator('nickname', {
-                        rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+                        rules: [{ required: true, message: 'Please input your nickname!'}],
                     })(
-                        <Input />
+                        <Cascader options={cityoption}  placeholder="Please select" />
                     )}
         </Form.Item>
             </Col>
