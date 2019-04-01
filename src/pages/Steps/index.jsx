@@ -31,6 +31,7 @@ export default class App extends React.Component {
     this.state = {
       current: 0,
       userName:'',
+      List:{}
     };
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -40,19 +41,34 @@ export default class App extends React.Component {
     
   }
   next() {
-//    if( this.state.current === 0){
-//     if(this.formRef.getItemsValue() !== "undefined"){
-        console.log( this.formRef.getItemsValue())
-        // const current = this.state.current + 1;
-        // this.setState({ current });
-//     }
+    if( this.state.current === 0){//第一个页面
+        const list = this.formRef.getItemsValue()
+         for(let key in list.error){
+             if(list.error[key] !== undefined){
+                 return false
+             }
+            // let arr = []
+            // arr.push(list.error[key])
+            // if(arr.indexOf(undefined) === -1){
+            //     return false
+            // }
+         }
+         const current = this.state.current + 1;
+         this.setState({ 
+             current:current,
+             List:Object.assign(this.state.List,list.values)
+             });
+         console.log(this.state.List)
+     }
     
 
-//    }
+
     
   }
 
   prev() {
+      console.log(this.formRef)
+    //this.formRef.setItemsValue()
     const current = this.state.current - 1;
     this.setState({ current });
   }
@@ -69,7 +85,7 @@ export default class App extends React.Component {
         <Card className="stepscontext">
         {
             current === 0 ?
-           (<div className="steps-content"><WestStepsOne value = "123"  wrappedComponentRef={(form) => this.formRef = form} /></div>) :null
+           (<div className="steps-content"><WestStepsOne List={this.state.List}  wrappedComponentRef={(form) => this.formRef = form} /></div>) :null
         }
         {/* <div className="steps-content">{steps[current].content}</div> */}
           <div className="nextButton">
@@ -98,16 +114,23 @@ export default class App extends React.Component {
 }
 class StepsOne extends React.Component{
     getItemsValue = ()=>{    //3、自定义方法，用来传递数据（需要在父组件中调用获取数据）
-   
-     this.props.form.validateFields((values) => {
-           this.props.value(values)
-          });
-          console.log(this.props.value)
-        //    const valus= this.props.form.getFieldsValue();       //4、getFieldsValue：获取一组输入控件的值，如不传入参数，则获取全部组件的值
-        //    return valus;
+     this.props.form.validateFields((err,value)=>{
+
+     });
+         const starts = {
+             error:this.props.form.getFieldsError(),
+             values:this.props.form.getFieldsValue()
+         }
+                //4、getFieldsValue：获取一组输入控件的值，如不传入参数，则获取全部组件的值
+           return starts;
     }
     
-
+    setItemsValue = () =>{
+        alert(1)
+        this.props.form.setItemsValue({
+            email:this.props.List.email || ""
+        })
+    }
    
     
     render(){
@@ -155,10 +178,10 @@ class StepsOne extends React.Component{
                     }
                     style={{"display":"block"}}
                 >
-                {getFieldDecorator('email', {
+                {getFieldDecorator('email', {           
                     rules: [{ required: true, message: '请输入邮箱地址!' }],
                 })(
-                    <Input  placeholder="email" />
+                    <Input  placeholder="email"  />
                 )}
                 </Form.Item>
                 </Col>
