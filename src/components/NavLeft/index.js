@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import {NavLink} from 'react-router-dom'
 import { Menu,  Icon,Layout ,Modal ,Row,Col} from 'antd';
 import { connect } from 'react-redux'
-import {menuName} from './../../redux/action'
+import menuName from './../../redux/action'
 import './index.css'
 import MenuList from '../../config/menuConfig'
 import Axios from '../../axios'
@@ -37,7 +37,8 @@ class NavLeft extends React.Component{
    }
    handleMenuName(item){
         const {dispatch} = this.props
-        dispatch(menuName())
+        console.log(item.props)
+        dispatch(menuName(item.props.title))
         this.setState({
             menuKey:item.key 
         })
