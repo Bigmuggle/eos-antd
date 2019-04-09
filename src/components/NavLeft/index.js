@@ -37,7 +37,7 @@ class NavLeft extends React.Component{
    }
    handleMenuName(item){
         const {dispatch} = this.props
-        console.log(item.props)
+        console.log(item.item.props)
         dispatch(menuName(item.props.title))
         this.setState({
             menuKey:item.key 
