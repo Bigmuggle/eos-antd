@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from "prop-types"
 import {NavLink} from 'react-router-dom'
 import { Menu,  Icon,Layout ,Modal ,Row,Col} from 'antd';
+import { connect } from 'react-redux'
+import {menuName} from './../../redux/action'
 import './index.css'
 import MenuList from '../../config/menuConfig'
 import Axios from '../../axios'
@@ -9,26 +11,37 @@ const SubMenu = Menu.SubMenu;
 const Headers = Layout.Header
 const Sider = Layout.Sider
 
-export default class NavLeft extends React.Component{
+class NavLeft extends React.Component{
     static contextTypes = {
         router: PropTypes.object.isRequired
     }
     state = {
         collapsed: false,
+        menuKey: ['/admin/home']
       };
    componentWillMount(){
        const menuList = this.renderList(MenuList)
+       let currentKey = window.location.hash.replace(/#|\?.*&/g,"")
        this.setState({
+          menuKey:currentKey,
           menuList
        })
        this.getTel()
+       this.handleMenuName = this.handleMenuName.bind(this)
    }
 
    toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
     });
-  }
+   }
+   handleMenuName(item){
+        const {dispatch} = this.props
+        dispatch(menuName())
+        this.setState({
+            menuKey:item.key 
+        })
+   }
     renderList(data){
         return data.map((item)=>{
                if(item.Children){            
@@ -87,7 +100,9 @@ export default class NavLeft extends React.Component{
                         <Menu
                         theme="dark" 
                         mode="inline" 
-                        defaultSelectedKeys={['1']}
+                        onClick={this.handleMenuName}
+                        selectedKeys={[this.state.menuKey]}
+                        defaultSelectedKeys={['/admin/home']}
                         >
                             {this.state.menuList}
                         </Menu>
@@ -131,3 +146,4 @@ export default class NavLeft extends React.Component{
         )
     }
 }
+export default connect()(NavLeft)
